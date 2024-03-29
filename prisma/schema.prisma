@@ -1,19 +1,19 @@
 generator client {
   provider = "prisma-client-js"
-  // previewFeatures = ["fullTextSearch", "fullTextIndex"]
 }
 
 datasource db {
-  provider = "postgresql"
-  url = env("DATABASE_URL")
+  provider = "sqlite"
+  url = "file:./dev.db"
+  relationMode = "prisma"
 }
 
 model Course {
   id String @id @default(uuid())
   userId String
-  title String @db.Text
-  description String? @db.Text
-  imageUrl String? @db.Text
+  title String
+  description String?
+  imageUrl String?
   price Float?
   isPublished Boolean @default(false)
 
@@ -40,7 +40,7 @@ model Category {
 model Attachment {
   id String @id @default(uuid())
   name String
-  url String @db.Text
+  url String
 
   courseId String
   course Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
@@ -54,8 +54,8 @@ model Attachment {
 model Chapter {
   id String @id @default(uuid())
   title String
-  description String? @db.Text
-  videoUrl String? @db.Text
+  description String?
+  videoUrl String?
   position Int
   isPublished Boolean @default(false)
   isFree Boolean @default(false)
